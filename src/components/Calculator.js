@@ -51,7 +51,7 @@ setResult('')
                     <button className="calc-button" value="7" onClick={handleSubmit} > 7</button>
                     <button className="calc-button" value="8" onClick={handleSubmit} >8</button>
                     <button className="calc-button" value="9" onClick={handleSubmit} >9</button>
-                    <button className="calc-button calc-button-op" value="x" onClick={handleSubmit} >x</button>
+                    <button className="calc-button calc-button-op" value="*" onClick={handleSubmit} >x</button>
                 </div>
                 <div className="calc-row">
                     <button className="calc-button" value="4" onClick={handleSubmit} >4</button>
