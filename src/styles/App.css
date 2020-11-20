@@ -36,3 +36,7 @@
   text-align: right;
   min-height: 25px;
 }
+
+button :hover {
+  cursor: pointer;
+}
