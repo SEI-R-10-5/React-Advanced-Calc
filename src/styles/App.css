@@ -1,3 +1,8 @@
+
+p {
+  height: 20px
+}
+
 .container {
   text-align: center;
   margin-top: 10px;
@@ -10,14 +15,14 @@
 }
 
 .calc-button {
-  width: 35px;
-  min-height: 10px;
+  width: 70px;
+  min-height: 50px;
   color: #333;
   background-color: #ccc;
 }
 
 .width-2 {
-  width: 70px !important;
+  width: 140px !important;
 }
 
 .calc-button-op {
@@ -25,10 +30,10 @@
   background-color: orange;
 }
 
-.calc-button-top {
+/* .calc-button-top {
   color: #333;
   background-color: #aaa;
-}
+} */
 
 .answer-box {
   background-color: #333;
