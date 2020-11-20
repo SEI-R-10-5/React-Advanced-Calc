@@ -29,10 +29,6 @@ const Calculator = (props) => {
     setNumbers(nums);
   };
 
-  const addNumber = () => {
-    return number + number;
-  };
-
   const handleSubmit = (event) => {
     setNumber(event.target.value);
     console.log(event.target.value);
