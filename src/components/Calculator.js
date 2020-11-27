@@ -2,25 +2,26 @@ import React, { useState } from 'react'
 
 const Calculator = props => {
   // Declare state variables
-  const [number, setNumber] = useState(0)
-  const [currentNumber, setCurrentNumber] = useState(0)
+  const [number, setNumber] = useState('')
+  const [currentNumber, setCurrentNumber] = useState('')
   const [operator, setOperator] = useState('')
-  const [result, setResult] = useState(0)
+  const [result, setResult] = useState('0')
 
   const handleNumber = e => {
     e.preventDefault()
-    setNumber(e.target.value)
+    setCurrentNumber(currentNumber + e.target.value)
     console.log(e.target.value)
   }
 
   const handleOperator = e => {
     e.preventDefault()
     if (operator) {
-      return setResult('error')
+      return setResult('ERROR. CANNOT USE 2 OPERATORS')
+    } else {
+      setNumber(currentNumber)
+      setOperator(e.target.value)
+      setCurrentNumber('')
     }
-    setOperator(e.target.value)
-    setCurrentNumber(number)
-    setNumber(0)
   }
 
   const handleDecimal = e => {
@@ -56,8 +57,8 @@ const Calculator = props => {
   }
 
   const handleClear = () => {
-    setNumber(0)
-    setCurrentNumber(0)
+    setNumber('')
+    setCurrentNumber('')
     setOperator('')
     setResult(0)
   }
