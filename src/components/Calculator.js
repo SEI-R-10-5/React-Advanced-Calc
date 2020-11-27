@@ -16,7 +16,7 @@ const Calculator = props => {
   const handleOperator = e => {
     e.preventDefault()
     if (operator) {
-      return setResult('ERROR. CANNOT USE 2 OPERATORS')
+      return setResult('ERROR')
     } else {
       setNumber(currentNumber)
       setOperator(e.target.value)
