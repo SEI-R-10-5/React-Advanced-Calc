@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, /* useEffect */ } from 'react'
 
-const Calculator = props => {
+const Calculator = () => {
     const [initialNumber, setInitialNumber] = useState('')
     const [operatingNumber, setOperatingNumber] = useState("0")
     const [operator, PerformOperation] = useState(null)
-    const toggleNegative = useState(false)
-    const isOperating = useState(false)
+    const [error, setError] = useState('')
+    const [toggleNegative, setToggleNegative] = useState(false)
+    const [isOperating, setIsOperating] = useState(false)
 
 
 // setInitialNumber(parseInt([...initialNumber,initialNumber]))
@@ -13,7 +14,26 @@ const Calculator = props => {
 //take this and put it into a function and then concatenate
 //and then parseInt the total concatenation
 
-
+// useEffect(()=>{
+//     setInitialNumber()
+//     setOperatingNumber()
+//     PerformOperation()
+//     setError()
+const numberPrinter = (event) => {
+    (isOperating ? 
+    setInitialNumber(event.target.value)
+    :
+    setOperatingNumber(event.target.value))
+    let firstNumber= (new String(initialNumber))
+    let secondNumber=(new String(operatingNumber))
+    parseInt(firstNumber)
+    parseInt(secondNumber)
+    PerformOperation(
+        firstNumber,
+        secondNumber)
+}
+// })
+let number = 0
 const changeSign = () => {
     toggleNegative ? 
     toggleNegative=false 
@@ -25,7 +45,7 @@ const changeSign = () => {
             operatingNumber * -1
     }
 }
-performOperation(initialNumber, operator, operatingNumber)
+PerformOperation(initialNumber, operator, operatingNumber)
     switch(operator) {
         case"+": ((initialNumber, operatingNumber) => (initialNumber + operatingNumber))
     break;
@@ -41,22 +61,6 @@ performOperation(initialNumber, operator, operatingNumber)
     }
 }
 
-const numberPrinter = (event, props) => {
-    (isOperating ? 
-    setInitialNumber(event.target.value)
-    :
-    setOperatingNumber(event.target.value))
-    let firstNumber= (new String(initialNumber))
-    let secondNumber=(new String(operatingNumber))
-    parseInt(firstNumber)
-    parseInt(secondNumber)
-    performOperation(
-        firstNumber,
-        secondNumber)
-
-
-    
-}
 
 const clearIt = () => {
     initialNumber = ''
@@ -79,7 +83,7 @@ const calculate = () => {
                     <button 
                     //      AC button
                         className="calc-button calc-button-top"
-                        onClick={clearIt}
+                        onClick={()=>clearIt()}
                     >AC
                     </button>
                     <button 
@@ -93,7 +97,7 @@ const calculate = () => {
                         className="calc-button calc-button-top"
                         onClick={
                             operate("%"),
-                            isOperating=true                       
+                            setIsOperating(true)
                         }
                     >%
                     </button>
@@ -102,7 +106,7 @@ const calculate = () => {
                     className="calc-button calc-button-op"
                     onClick={
                         operate("/"),
-                        isOperating=true                       
+                        setIsOperating(true)
                     }
                     >/
                     </button>
@@ -112,26 +116,26 @@ const calculate = () => {
                     //      7 button
                     className="calc-button"
                     value='7'
-                    onClick={numberPrinter}
+                    onClick={()=> numberPrinter()}
                     >7</button>
                     <button 
                     //      8 button
                     className="calc-button"
                     value='8'
-                    onClick={numberPrinter}
+                    onClick={()=> numberPrinter()}
                     >8</button>
                     <button 
                     //      9 button
                     className="calc-button"
                     value='9'
-                    onClick={numberPrinter}
+                    onClick={()=> numberPrinter()}
                     >9</button>
                     <button 
                     //      x button
                     className="calc-button calc-button-op"
                     onClick={
                         operate("*"),
-                        isOperating=true                        
+                        setIsOperating(true)                        
                     }
                     >x</button>
                 </div>
@@ -139,23 +143,23 @@ const calculate = () => {
                     <button 
                         className="calc-button"
                         value = "4"
-                        onClick={numberPrinter}    
+                        onClick={()=> numberPrinter()}    
                     >4</button>
                     <button 
                     className="calc-button"
                     value="5"
-                    onClick={numberPrinter}
+                    onClick={()=> numberPrinter()}
                     >5</button>
                     <button 
                         className="calc-button"
                         value="6"
-                        onClick={numberPrinter}
+                        onClick={()=> numberPrinter()}
                     >6</button>
                     <button 
                         className="calc-button calc-button-op"
                         onClick={
                             operate("-"),
-                            isOperating=true                           
+                            setIsOperating(true)                           
                         }
                     >-</button>
                 </div>
@@ -163,23 +167,23 @@ const calculate = () => {
                     <button 
                         className="calc-button"
                         value="1"
-                        onClick={numberPrinter}
+                        onClick={()=> numberPrinter()}
                     >1</button>
                     <button 
                         className="calc-button"
                         value="2"
-                        onClick={numberPrinter}
+                        onClick={()=> numberPrinter()}
                     >2</button>
                     <button 
                         className="calc-button"
                         value="3"
-                        onClick={numberPrinter}
+                        onClick={()=> numberPrinter()}
                     >3</button>
                     <button 
                         className="calc-button calc-button-op"
                         onClick={
                             operate("+"),
-                            isOperating=true 
+                            setIsOperating(true) 
                         }
                     >+</button>
                 </div>
@@ -187,7 +191,7 @@ const calculate = () => {
                     <button 
                         className="calc-button width-2"
                         value="0"
-                        onClick={numberPrinter}
+                        onClick={()=> numberPrinter()}
                     >0</button>
                     <button 
                         className="calc-button"
