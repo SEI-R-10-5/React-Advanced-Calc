@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 
 const Calculator = (props) => {
   // Declare state variables
-  const [numbers, setNumbers] = useState('0');
+  const [numbers, setNumbers] = useState('');
   const [number, setNumber] = useState('');
-  const [ans, setAns] = useState('0');
+  const [ans, setAns] = useState('');
   const [err, setErr] = useState('');
   const [op, setOp] = useState('');
 
@@ -14,40 +14,32 @@ const Calculator = (props) => {
     setNumber('');
     setAns('');
     setOp('');
+    setErr('');
     console.log('Cleared');
   };
 
-  // Establish numbers being clicked
-  // const handleNumbers = (e) => {
-  //   e.preventDefault();
-  //   let nums = { ...numbers, number };
-  //   setNumbers("");
-  //   // setPreVal(e.target.value);
-  //   console.log("first number:", e.target.value);
-  // };
-
   const handleNumber = (e) => {
-    if (e.target.value !== 0 || e.target.value !== '') {
+    // if press is not 0 or number is not empty
+    if (e.target.value !== 0 || number !== '') {
+      // set number to pressed
       setNumber(number + e.target.value);
-      console.log('handlenumber:', setNumber);
     }
   };
 
   const handleOperator = (e) => {
     // if operator is pressed w/o current num return error
     if (op && number === '') {
-      setErr('Error, enter number first');
+      setErr('AHT');
       //if no number and our events value is equal to minus then we set error msg to empty string and set number to e.t.v
     } else if (number === '' && e.target.value === '-') {
       setErr('');
       setNumber(e.target.value);
     } else {
+      // else setNumbers to number, setOp to target, setErr to empty string, setNumber''
+      setNumbers(number);
       setOp(e.target.value);
       setErr('');
-      setNumbers(number);
       setNumber('');
-      console.log(number);
-      console.log(numbers);
     }
   };
 
@@ -56,58 +48,48 @@ const Calculator = (props) => {
     e.preventDefault();
     //  if numbers does not exist, or op does nt exist then set Err 'pls enter clc'
     if (number === '' || op === '') {
-      setErr('Enter number');
+      setErr('AHT');
       // elseif number does not exist, set Err 'pls enter 2nd number
     } else if (number === '') {
-      setErr('Enter another number');
-      // else  \\ let varto hold setAns
+      setErr('AHT');
+      // else holding nested else ifs
     } else {
       let tempAns = '';
-      // //  if no op or op === + then setAns = Number pass in numbers + Number pass in number and stringfy
-      if (op === '+') {
-        tempAns = (Number(number) + Number(numbers)).toString();
+      // let varto hold tempAns
+      // //  if not op or op === + then setAns = Number pass in numbers + Number pass in number and stringfy
+      if (!op || op === '+') {
+        tempAns = (Number(numbers) + Number(number)).toString();
+        // else if op
       } else if (op === '-') {
         tempAns = (Number(numbers) - Number(number)).toString();
+        // else if op
       } else if (op === '*') {
         tempAns = (Number(numbers) * Number(number)).toString();
+        // else if op
       } else if (op === '/') {
         tempAns = (Number(numbers) / Number(number)).toString();
       }
+      // setAns(tempVar) and setErr ''
       setAns(tempAns);
       setErr('');
     }
-
-    // else if op
-    // else if op
-    // setAns ans
-    // setErr ''
   };
-
-  // const handleSubmit = (event) => {
-  //   setNumber(event.target.value);
-  //   console.log(event.target.value);
-  // };
-
-  // const handleNumber = (e) => {
-  //   e.preventDefault();
-  //   setNumber(e.target.value);
-  //   console.log(e.target.value);
-  //   handleNumbers();
-  // };
 
   return (
     <div className='container'>
       <h1>React Calculator</h1>
       <div className='calc-container'>
         <p
+          className='inputVal'
           type='text'
           placeholder='enter an amount'
           value={number}
-          onChange={(e) => setNumber(e.target.value)}
+          onChange={(e) => setNumbers(e.target.value)}
         >
-          {number}
+          {err}
+          {numbers || number}
           {op}
-          {op ? numbers : ''}
+          {op ? number : ''}
         </p>
         <div className='answer-box'>{ans}</div>
         <div className='calc-row'>
@@ -242,7 +224,9 @@ const Calculator = (props) => {
           >
             0
           </button>
-          <button className='calc-button'>.</button>
+          <button className='calc-button' value='.' onClick={handleNumber}>
+            .
+          </button>
           <button
             className='calc-button calc-button-op'
             value='return ='
