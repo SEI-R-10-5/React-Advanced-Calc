@@ -1,98 +1,106 @@
 import React, { useState } from 'react'
 
 const Calculator = props => {
-    // Declare state variables
-    const [total, setTotal] = useState('')
-    const [num, setNum] = useState('')
-    const [op, setOp] = useState('')
-    const [display, setDisplay] = useState('')
+  // Declare state variables
+  const [num, setNum] = useState('')
+  const [currentNum, setCurrentNum] = useState('')
+  const [op, setOp] = useState('')
+  const [result, setResult] = useState('0')
 
-    const clear = () => {
-        setTotal(0)
-        setNum('')
-        setOp('')
-        setDisplay('')
+  const handleNumber = e => {
+    e.preventDefault()
+    setCurrentNum(currentNum + e.target.value)
+    console.log(e.target.value)
+  }
+
+  const handleOperator = e => {
+    e.preventDefault()
+    if (op) {
+      return setResult('ERROR')
+    } else {
+      setNum(currentNum)
+      setOp(e.target.value)
+      setCurrentNum('')
     }
+  }
 
-    const equals = () => {
-        if (op === "+") {
-            setTotal(total + parseInt(num))
-        } else if (op === "-") {
-            setTotal(total - parseInt(num))
-        } else if (op === "/") {
-            setTotal(total / parseInt(num))
-        } else if (op === "*") {
-            setTotal(total * parseInt(num))
-        } else if (op === "%") {
-            let division = total / parseInt(num);
-            let fraction = division - Math.floor(division)
-            let remainder = fraction * parseInt(num);
-            setTotal(Math.round(remainder))
-        }
-        setNum("");
-        setDisplay("");
-    } 
-
-    const operators = (sign) => {
-        if(!num) {
-            setDisplay('only one operator')
-        } else {
-            if (!operators) {
-                setTotal(parseInt(num))
-            } else {
-                equals()
-            }
-            setOp(sign)
-            setNum('')
-        }
+  const handleDecimal = e => {
+    e.preventDefault()
+    if (!currentNum) { // if there is no currentNumber
+      setCurrentNum('0.') // then it needs a 0 before decimal
+    } else if (currentNum.indexOf('.') === -1) { // else, currentNumber and the indexOf the array 
+      setCurrentNum(currentNum + '.') // then set currentNumber with a decimal
     }
+  }
 
-    const edgeTester = (char) => {
-        if (!num && char === "0") {
-            setDisplay("Must not have leading 0")
-        } else {
-            setNum(num + char);
-        }
+  const calculate = () => {
+    let operate = op
+    switch (operate) {
+      case ('+'):
+        setResult(Number(num) + Number(currentNum))
+        break
+      case ('-'):
+        setResult(Number(num) - Number(currentNum))
+        break
+      case ('x'):
+        setResult(Number(num) * Number(currentNum))
+        break
+      case ('/'):
+        setResult(Number(num) / Number(currentNum))
+        break
+      case ('%'):
+        setResult(Number(num) % Number(currentNum))
+        break
+      default:
+        return
     }
+  }
 
-    return (
-        <div className="container">
-            <h1>React Calculator</h1>
-            <div className="calc-container">
-                <p>{operators}{num?num:0}</p>
-                <div className="answer-box">{total}</div>
-                <div className="calc-row">
-                    <button className="calc-button calc-button-top" onClick={() => clear()}>AC</button>
-                    <button className="calc-button calc-button-top">+/-</button>
-                    <button className="calc-button calc-button-top" onClick={() => operators("%")}>%</button>
-                    <button className="calc-button calc-button-op" onClick={() => operators("/")}>/</button>
-                </div>
-                <div className="calc-row">
-                    <button className="calc-button" onClick={() => edgeTester("7")}>7</button>
-                    <button className="calc-button" onClick={() => edgeTester("8")}>8</button>
-                    <button className="calc-button" onClick={() => edgeTester("9")}>9</button>
-                    <button className="calc-button calc-button-op" onClick={() => operators("*")}>x</button>
-                </div>
-                <div className="calc-row">
-                <button className="calc-button" onClick={() => edgeTester("4")}>4</button>
-                    <button className="calc-button" onClick={() => edgeTester("5")}>5</button>
-                    <button className="calc-button" onClick={() => edgeTester("6")}>6</button>
-                    <button className="calc-button calc-button-op" onClick={() => operators("-")}>-</button>
-                </div>
-                <div className="calc-row">
-                    <button className="calc-button" onClick={() => edgeTester("1")}>1</button>
-                    <button className="calc-button" onClick={() => edgeTester("2")}>2</button>
-                    <button className="calc-button" onClick={() => edgeTester("3")}>3</button>
-                    <button className="calc-button calc-button-op" onClick={() => operators("+")}>+</button>
-                </div>
-                <div className="calc-row">
-                    <button className="calc-button width-2" onClick={() => edgeTester("0")}>0</button>
-                    <button className="calc-button" >.</button>
-                    <button className="calc-button calc-button-op" onClick={() => equals()}>=</button>
-                </div>
-            </div>
-        </div>
-    )
+  const handleClear = () => {
+    setNum('')
+    setCurrentNum('')
+    setOp('')
+    setResult(0)
+  }
+
+  return (
+    <div className="container">
+      <h1>React Calculator</h1>
+      <div className="calc-container">
+        <p> {num} {op} {currentNum} </p>
+      <div className="answer-box">{result}</div>
+      <div className="calc-row">
+        <button className="calc-button calc-button-top" value="AC" onClick={handleClear}>AC</button>
+        <button className="calc-button calc-button-top" onClick={(e) => handleOperator(e)}>+/-</button>
+        <button className="calc-button calc-button-top" value="%" onClick={(e) => handleOperator(e)}>%</button>
+        <button className="calc-button calc-button-op" value="/" onClick={(e) => handleOperator(e)}>/</button>
+      </div>
+      <div className="calc-row">
+        <button className="calc-button" value="7" onClick={(e) => handleNumber(e)}>7</button>
+        <button className="calc-button" value="8" onClick={(e) => handleNumber(e)}>8</button>
+        <button className="calc-button" value="9" onClick={(e) => handleNumber(e)}>9</button>
+        <button className="calc-button calc-button-op" value="x" onClick={(e) => handleOperator(e)}>x</button>
+      </div>
+      <div className="calc-row">
+        <button className="calc-button" value="4" onClick={(e) => handleNumber(e)}>4</button>
+        <button className="calc-button" value="5" onClick={(e) => handleNumber(e)}>5</button>
+        <button className="calc-button" value="6" onClick={(e) => handleNumber(e)}>6</button>
+        <button className="calc-button calc-button-op" value="-" onClick={(e) => handleOperator(e)}>-</button>
+      </div>
+      <div className="calc-row">
+        <button className="calc-button" value="1" onClick={(e) => handleNumber(e)}>1</button>
+        <button className="calc-button" value="2" onClick={(e) => handleNumber(e)}>2</button>
+        <button className="calc-button" value="3" onClick={(e) => handleNumber(e)}>3</button>
+        <button className="calc-button calc-button-op" value="+" onClick={handleOperator}>+</button>
+      </div>
+      <div className="calc-row">
+        <button className="calc-button width-2" value="0" onClick={(e) => handleNumber(e)}>0</button>
+        <button className="calc-button" onClick={handleDecimal}>.</button>
+        <button className="calc-button calc-button-op" value="=" onClick={calculate}>=</button>
+      </div>
+      </div>
+    </div>
+  )
 }
 
 export default Calculator
