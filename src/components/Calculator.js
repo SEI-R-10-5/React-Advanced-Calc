@@ -35,10 +35,10 @@ const Calculator = props => {
   }
 
   const changeCalc = (input) => {
+      
     if (!operator){
         if (numberOne.length === 0){
             setNumberOne(input)
-            console.log(numberOne)
         } else {
             setNumberOne(numberOne.concat(input))
         }
@@ -54,16 +54,32 @@ const Calculator = props => {
   const posOrNeg = () => {
     numberOne === '' ? console.log('im a string') : setNumberOne(Number(numberOne)*(-1))
   } 
+
+  const modulous = () => {
+      numberOne ? setAnswer(numberOne / 100) : setAnswer('must input number')
+      setNumberOne('')
+  }
   
-  const doMath = () => {
+  const doMath = (e) => {
+      e.preventDefault()
       setNumberTwo('')
       setNumberOne('')
       setOperator('')
       setAnswer('')
-      if ( operator === 'x')setAnswer(parseInt(numberOne)*parseInt(numberTwo))
-      if (operator === '-')setAnswer(parseInt(numberOne)-parseInt(numberTwo))
-      if (operator === '/')setAnswer(parseInt(numberOne)/parseInt(numberTwo))
-      if (operator === '+')setAnswer(parseInt(numberOne)+parseInt(numberTwo))
+      if ( operator === 'x' && numberOne && numberTwo){
+          setAnswer(parseInt(numberOne)*parseInt(numberTwo))
+        } else {
+            setAnswer('Error! Refer to instructions')
+        }
+      if (operator === '-' && numberOne && numberTwo){
+          setAnswer(parseInt(numberOne)-parseInt(numberTwo))
+        }
+      if (operator === '/' && numberOne && numberTwo){
+          setAnswer(parseInt(numberOne)/parseInt(numberTwo))
+        }
+      if (operator === '+' && numberOne && numberTwo){
+          setAnswer(parseInt(numberOne)+parseInt(numberTwo))
+        }
       
     }
     
@@ -72,17 +88,17 @@ const Calculator = props => {
     return (
         <div className="container">
             <h1>React Calculator</h1>
-            <h6>the values box only holds numbers as a reminder,if you want to use the result of a<br /> operation,
-            you must re-input value</h6>
-            <h6>example: 5 X 5 = 25<br /> to add 5 to the product, you must re-enter 25<br />
-            </h6>
+            <h5>Instructions:<br />Input Two Values With an Operator in Between Them(Example One).<br /> When using modulous(%) must input value to be used.(Example Two)</h5>
+
+            <h6>Example One: 1 + 1, 234 * 8579, etc...<br /> Example Two: 9 % , 100 %, etc...</h6>
+            
             <div className="calc-container" >
                 <p>Values: {answer}  </p>
                 <div className="answer-box">{numberOne + operator + numberTwo}</div>
                 <div className="calc-row">
                     <button className="calc-button calc-button-top" onClick={reset}>AC</button>
                     <button className="calc-button calc-button-top" onClick={posOrNeg} >+/-</button>
-                    <button className="calc-button calc-button-top" value='%'>%</button>
+                    <button className="calc-button calc-button-top" onClick={modulous}>%</button>
                     <button className="calc-button calc-button-op" value='/' onClick={AddOperator}>/</button>
                 </div>
                 <div className="calc-row">
