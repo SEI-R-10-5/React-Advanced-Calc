@@ -12,12 +12,12 @@ const Calculator = props => {
      
 
 
-  const handleClick = (event) => {
-      console.log(event.target.value)
-      let input = (numberOne + event.target.value)
-      setNumberOne(input)
-      console.log(input)
-  }
+//   const handleClick = (event) => {
+//       console.log(event.target.value)
+//       let input = (numberOne + event.target.value)
+//       setNumberOne(input)
+//       console.log(input)
+//   }
 
   const reset = (event) => {
       setNumberOne('')
@@ -37,7 +37,11 @@ const Calculator = props => {
   const changeCalc = (input) => {
       
     if (!operator){
-        if (numberOne.length === 0){
+        if (input === '0'){
+            setNumberOne('')
+            setAnswer('ERROR! must not start with zero')
+        }
+        else if (numberOne.length === 0){
             setNumberOne(input)
         } else {
             setNumberOne(numberOne.concat(input))
